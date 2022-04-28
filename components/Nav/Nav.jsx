@@ -1,4 +1,4 @@
-import { useState, useLayoutEffect, useMemo } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Box from '@mui/material/Box';
 import Tabs from '@mui/material/Tabs';
@@ -9,28 +9,41 @@ export default function Nav() {
   const router = useRouter();
   const [navIndex, setNavIndex] = useState(0);
 
-  const navInfos = useMemo(
-    () => [
-      { name: '메인', link: '/' },
-      { name: '카운터', link: '/basic/counter' },
-      { name: '계산기', link: '/basic/calc' },
-      { name: 'BMI', link: '/basic/bmi' },
-      { name: '투두리스트', link: '/todo/todo' },
-      { name: '게시글등록', link: '/board/board' },
-      { name: '게시글목록', link: '/board/board-list' },
-      { name: '회원가입', link: '/user/join' },
-      { name: '로그인', link: '/user/login' },
-      { name: '사용자목록', link: '/user/user-list' },
-    ],
-    []
-  );
+  const [navInfos, setNavInfos] = useState([
+    { name: '메인', link: '/' },
+    { name: '카운터', link: '/basic/counter' },
+    { name: '계산기', link: '/basic/calc' },
+    { name: 'BMI', link: '/basic/bmi' },
+  ]);
 
   const handleChange = (e, newValue) => {
     setNavIndex(newValue);
     router.push(navInfos[newValue].link);
   };
 
-  useLayoutEffect(() => {
+  useEffect(() => {
+    setNavInfos((prevState) => {
+      const loginUser = window.localStorage.getItem('loginUser');
+      const basicNavInfos = prevState.filter(({ link }) => link.match(/^\/basic|^\/$/));
+
+      return loginUser
+        ? [
+            ...basicNavInfos,
+            { name: '로그아웃', link: '/user/logout' },
+            { name: '프로필', link: '/user/profile' },
+            { name: '회원수정', link: '/user/modifyUser' },
+            { name: '회원탈퇴', link: '/user/withdrawUser' },
+            { name: '회원목록', link: '/user/getUsers' },
+          ]
+        : [
+            ...basicNavInfos,
+            { name: '회원가입', link: '/user/join' },
+            { name: '로그인', link: '/user/login' },
+          ];
+    });
+  }, []);
+
+  useEffect(() => {
     const initialNavIndex = navInfos.findIndex(({ link }) => link === router.pathname);
 
     setNavIndex(initialNavIndex);

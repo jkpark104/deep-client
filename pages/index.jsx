@@ -8,7 +8,7 @@ export default function Home() {
   const [time, setTime] = useState('');
 
   useEffect(() => {
-    axios.get('http://localhost:5000/api/now').then((res) => {
+    axios.get('http://localhost:5001/api/now').then((res) => {
       const { data } = res;
 
       setTime(data.now);

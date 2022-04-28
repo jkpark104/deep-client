@@ -4,7 +4,6 @@ import Head from 'next/head';
 
 import styled from '@emotion/styled';
 
-import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import SendIcon from '@mui/icons-material/Send';
 import { userActions } from '../../redux/reducers/userReducer';
@@ -12,52 +11,29 @@ import { userActions } from '../../redux/reducers/userReducer';
 import Inner from '../../components/Inner/Inner';
 import Title from '../../components/Title/Title';
 
-export default function Login() {
+export default function Logout() {
   const dispatch = useDispatch();
   const [userInfo, setUserInfo] = useState({});
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    dispatch(userActions.loginRequest(userInfo));
+    dispatch(userActions.logoutRequest(userInfo));
 
     setUserInfo({});
   };
 
-  const handleInputChange = (e) => {
-    setUserInfo((prevState) => ({
-      ...prevState,
-      [e.target.name]: e.target.value,
-    }));
-  };
-
-  const { id, password } = userInfo;
-
   return (
     <>
       <Head>
-        <title>로그인</title>
+        <title>로그아웃</title>
       </Head>
       <Form onSubmit={handleSubmit}>
         <Inner>
-          <Title>로그인</Title>
-          <Input
-            id="id"
-            name="id"
-            label="사용자 ID"
-            onChange={handleInputChange}
-            value={id ?? ''}
-          />
-          <Input
-            id="password"
-            name="password"
-            label="비밀번호"
-            onChange={handleInputChange}
-            value={password ?? ''}
-          />
+          <Title>로그아웃</Title>
           <Wrapper>
             <LoginButton variant="contained" endIcon={<SendIcon />} type="submit">
-              로그인
+              로그아웃
             </LoginButton>
           </Wrapper>
         </Inner>
@@ -68,12 +44,6 @@ export default function Login() {
 
 const Form = styled.form`
   width: 600px;
-`;
-
-const Input = styled(TextField)`
-  display: flex;
-  justify-content: center;
-  margin-bottom: 10px;
 `;
 
 const Wrapper = styled.div`

@@ -17,7 +17,7 @@ export default function Bmi() {
   const handleSubmit = (e) => {
     e.preventDefault();
     axios
-      .post('http://localhost:5000/api/basic/bmi', userInfo)
+      .post('http://localhost:5001/basic/bmi', userInfo)
       .then((res) => {
         setResult({
           ...res.data,

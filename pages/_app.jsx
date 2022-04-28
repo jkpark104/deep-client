@@ -1,5 +1,6 @@
 import Head from 'next/head';
 
+import wrapper from '../redux/store';
 import GlobalStyle from '../styles/GlobalStyle';
 import Layout from '../components/Layout/Layout';
 
@@ -22,4 +23,4 @@ function MyApp({ Component, pageProps }) {
   );
 }
 
-export default MyApp;
+export default wrapper.withRedux(MyApp);
